@@ -1,0 +1,25 @@
+{% extends 'main.html' %}
+
+
+{% block content %}
+
+<br>
+<form method="POST" action="">
+    <div class="container">
+        <h1>Update a Movie</h1>
+        {% csrf_token %}
+        
+        <input required class = "form-group update_form" type="text" name="movie_ID" placeholder="Enter Movie id *" value={{movie.id}} > <br>
+        <input class = "form-group update_form" type="text" name="name" placeholder="Enter Movie Name"> <br>
+        <input class = "form-group update_form" type="text" name="release_date" placeholder="Enter Movie release date"> <br>
+        <input class = "form-group update_form" type="text" name="actors" placeholder="Enter Movie actors list"> <br>
+        <input class = "form-group update_form" type="text" name="poster_path" placeholder="Enter Movie poster image link"> <br>
+        <input class = "form-group update_form" type="text" name="genres" placeholder="Enter Movie genres"> <br> <br>
+
+        <br><input type="Submit" value = "Submit" class="button primary submit"/>
+    </div>  <br>
+    
+</form> <br>
+
+{% endblock %}
+

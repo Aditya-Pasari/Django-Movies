@@ -1,0 +1,26 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<br>
+<div class="container">
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <b> {{ message }}   </b>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <br><h1>Movies Homepage</h1>
+
+    <a href="{% url 'create_movie' %}">(C) Add a movie to Database  <br> </a>
+    <a href="{% url 'read_movie' %}">(R) Search for a movie  <br> </a>
+    <a href="{% url 'update_movie' %}">(U) Update a movie</a><br>
+    <a href="{% url 'delete_movie' %}">(D) Delete a movie  <br> </a>
+
+</div>
+
+
+
+
+{% endblock %}

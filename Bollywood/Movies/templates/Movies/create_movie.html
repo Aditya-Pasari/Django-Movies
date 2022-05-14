@@ -1,0 +1,14 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<div class="container"> <br>
+    <h1>Add a movie to the database</h1>
+
+    <h4><a href="{% url 'createMovie' %}">Add a single movie</a></h4>
+
+    <h4><a href="{% url 'createMovieUsingExcel' %}">Add multiple movies using Excel file</a></h4>
+
+</div>
+
+
+{% endblock %}

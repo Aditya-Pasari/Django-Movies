@@ -1,0 +1,21 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<br>
+<div class="container">
+    <h3>Create a new movie</h3> 
+    <form method="POST" action="">
+        {% csrf_token %}
+        <div class="form-group">    {{ form.name}}  </div>
+        <div class="form-group">    {{ form.actors}}    </div>
+        <div class="form-group">    {{ form.release_date}}    </div>
+        <div class="form-group">    {{ form.poster_path}}    </div>
+        <div class="form-group">    {{ form.genres}}    </div>
+        
+        <br><input type="Submit" value = "Submit" class="button primary submit"/>
+    </form>
+</div>
+
+
+{% endblock %}
+
