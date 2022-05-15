@@ -1,18 +1,24 @@
 
 from multiprocessing import context
 from django.shortcuts import redirect, render
-from django.http import HttpResponse    # Import this only, Not something else
+from django.http import HttpResponse, JsonResponse    # Import this only, Not something else
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from yaml import serialize
 
 from Movies.models import Movie   
 from .forms import MovieForm
 from .resources import MovieResource
 from django.contrib import messages
 from tablib import Dataset
+
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework.parsers import JSONParser 
+from .serializers import MovieSerializer
 
 # Create your views here.
 def home(request):
@@ -289,3 +295,78 @@ def update_movie_key(request, pk):
     context = {'movie' : movie, "updated": False}
 
     return render (request, 'Movies/update_movie.html', context)
+
+
+###########################################################################
+############################ REST API #####################################
+###########################################################################
+@api_view(['GET'])
+def api_overview(request):
+    api_urls    =   {
+        'Get_all': '/api/get-all',
+        'Create' : '/api/movie-create/',
+        'Read'   : '/api/movie-read/<str:pk>',
+        'Update' : '/api/movie-update/<str:pk>',
+        'Delete' : '/api/movie-delete/<str:pk>',
+    }
+    return Response(api_urls)
+
+@api_view(['GET'])
+def api_Get_all(request):
+    movies = Movie.objects.all()
+    serializer = MovieSerializer(movies, many = True)
+    return Response(serializer.data)
+
+
+@api_view(['POST'])                                                 # Need to send JSON data here. // Form Data
+def api_movie_create(request):
+    serializer = MovieSerializer(data = request.data)
+    if serializer.is_valid():
+        serializer.save()
+
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def api_movie_read(request, pk):
+    movies = Movie.objects.get(id = pk)
+    serializer = MovieSerializer(movies, many = False)
+    return Response(serializer.data)
+
+
+@api_view(['PUT'])
+def api_movie_update(request, pk):
+    movies = Movie.objects.get(id = pk)
+    serializer = MovieSerializer(instance = movies, data = request.data)
+    if serializer.is_valid():
+        serializer.save()
+
+    return Response(serializer.data)
+
+
+@api_view(['DELETE'])
+def api_movie_delete(request, pk):
+    try:
+        movies = Movie.objects.get(id = pk)
+        movies.delete()
+        return Response("Data with id {} was deleted". format(pk))
+    except:
+        return Response("Data with id {} was not found". format(pk))
+    
+
+@api_view(['GET'])
+def api_movie_read_genre(request, genre, ratings_count):
+    movies = Movie.objects.filter(genres__icontains = genre)
+    movies = movies.filter(ratings_count__gte = ratings_count)
+    movies = movies.order_by('-ratings')
+    
+
+    serializer = MovieSerializer(movies, many = True)
+    return Response(serializer.data)
+
+
+
+
+###########################################################################
+######################## END OF  REST API #################################
+###########################################################################

@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'Movies.apps.MoviesConfig',                              # Need to add our app
+    'rest_framework',                                       # Need to add DRF
 ]
 
 MIDDLEWARE = [

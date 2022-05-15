@@ -20,6 +20,15 @@ urlpatterns = [
     path('update_movie/', views.update_movie, name = "update_movie"),  
     path('update_movie_key/<str:pk>', views.update_movie_key, name = "update_movie_key"),  
 
+
+    path('api/', views.api_overview, name = "api_overview"),  
+    path('api/get-all/', views.api_Get_all, name = "api_Get_all"),  
+    path('api/movie-create/', views.api_movie_create, name = "api_movie_create"),  
+    path('api/movie-read/<str:pk>', views.api_movie_read, name = "api_movie_read"),  
+    path('api/movie-update/<str:pk>', views.api_movie_update, name = "api_movie_update"),  
+    path('api/movie-delete/<str:pk>', views.api_movie_delete, name = "api_movie_delete"),  
+    path('api/movie-read-genre/<str:genre>/<str:ratings_count>', views.api_movie_read_genre, name = "api_movie_read_genre"),  
+
     
 
     #path('room/<str:pk>/', views.room, name = "room"), 
