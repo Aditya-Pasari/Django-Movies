@@ -14,7 +14,9 @@
         <input class="form-group update_form" type="text" name="actor_name" placeholder="Enter Actors Name"> <br>
         <input class="form-group update_form" type="text" name="release_date" placeholder="Enter Release Year"> <br>
         <input class="form-group update_form" type="text" name="genre" placeholder="Enter Genre"> <br>
-        <input class="form-group update_form" type="text" name="id" placeholder="Enter ID"> <br><br>
+        <input class="form-group update_form" type="text" name="id" placeholder="Enter ID"> <br>
+        <input class="form-group update_form" type="text" name="ratings" placeholder="Enter Greater than Rating"> <br>
+        <input class="form-group update_form" type="text" name="ratings_count" placeholder="Enter Greater than Rating Count"> <br><br>
 
         <button type="submit">Submit</button>
     </form>
@@ -37,8 +39,9 @@
                 <th scope="col" data-type="release_year">Release Date</th>
                 <th scope="col">Genres</th>
                 <th scope="col">Poster</th>
-
-                {% if user.is_authenticated %}
+                <th scope="col" data-type="number_float">Ratings</th>
+                <th scope="col" data-type="number_int">Ratings Count</th>
+                {% if is_superuser %}
                 <th scope="col">Update </th>
                 <th scope="col">Delete</th>
                 {% endif %}
@@ -56,8 +59,9 @@
                 <td style="width:150px; height:200px;"><img src="{{ m.poster_path }}"  
                         onerror="this.onerror=null; this.src='https://bitsofco.de/content/images/2018/12/broken-1.png'"
                         style="max-height:100%; max-width:100%"> </td>
-
-                {% if user.is_authenticated %}
+                <td>{{ m.ratings }}</td>
+                <td>{{ m.ratings_count }}</td>
+                {% if is_superuser %}
                 <td><a href="{% url 'update_movie_key' m.id %}" class="button primary edit">Edit</a> </td>
                 <td><a href="{% url 'delete_movie_key' m.id %}" class="button primary delete">Delete</a> </td>
                 {% endif %}

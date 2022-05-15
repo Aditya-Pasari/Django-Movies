@@ -84,7 +84,6 @@ def createMovie(request):
 
     if request.method == 'POST':
         form = MovieForm(request.POST)
-        print(request.POST)
         if form.is_valid():
             form.save()
             messages.success(request, "The movie was succesfully added")
@@ -119,7 +118,9 @@ def createMovieUsingExcel(request):
                         'actors': data[2],
                         'release_date': data[3],
                         'poster_path': data[4],
-                        'genres': data[5]
+                        'genres': data[5],
+                        'ratings': data[6],
+                        'ratings_count': data[7]
                     }
 
                     form = MovieForm(value)
@@ -139,12 +140,19 @@ def createMovieUsingExcel(request):
 #Various filters to read a movie
 def read_movie(request):
     if request.method == "POST":
+        
         actor_list = request.POST.get('actor_name').split(',') if request.POST.get('actor_name') else ""
         genre_list = request.POST.get('genre').split(',') if request.POST.get('genre') else ""
         release_date = request.POST.get('release_date') if request.POST.get('release_date') else ""
         id = request.POST.get('id') if request.POST.get('id') else ""
+        ratings = float(request.POST.get('ratings')) if request.POST.get('ratings') else 0                       # Added for ratings
+        ratings_count = int(request.POST.get('ratings_count')) if request.POST.get('ratings_count') else 0       # Added for ratings
 
-        movie = Movie.objects.all()
+        if (id != ""):
+            movie = movie.filter(pk = id)
+        else:
+            movie = Movie.objects.all()
+
         for actors in actor_list:
             movie = movie.filter(actors__icontains = actors.strip())
         
@@ -152,11 +160,13 @@ def read_movie(request):
             movie = movie.filter(genres__icontains = genre.strip())
         
         movie = movie.filter(release_date__icontains = release_date)
-        if (id != ""):
-            movie = movie.filter(pk = id)
+        
+        movie = movie.filter(ratings__gte = ratings)
+        movie = movie.filter(ratings_count__gte = ratings_count)
 
         total_movies = movie.count()
-        context = {'movie':movie, 'total_movies' : total_movies}
+        is_superuser = request.user.is_superuser
+        context = {'movie':movie, 'total_movies' : total_movies, 'is_superuser': is_superuser}
         
         return render (request, 'Movies/read_movie.html', context)
 

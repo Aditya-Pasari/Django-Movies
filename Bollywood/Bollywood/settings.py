@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'Movies.apps.MoviesConfig'                              # Need to add our app
+    'Movies.apps.MoviesConfig',                              # Need to add our app
 ]
 
 MIDDLEWARE = [

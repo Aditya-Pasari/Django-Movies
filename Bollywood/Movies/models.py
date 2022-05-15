@@ -9,5 +9,7 @@ class Movie(models.Model):
     release_date    =   models.CharField(max_length=50)
     poster_path     =   models.TextField()
     genres          =   models.TextField()
+    ratings         =   models.FloatField()                                 # Added for ratings
+    ratings_count   =   models.IntegerField()                               # Added for ratings
     updated         =   models.DateTimeField(auto_now=True)
     created         =   models.DateTimeField(auto_now_add=True)
