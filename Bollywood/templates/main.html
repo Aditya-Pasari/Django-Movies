@@ -7,16 +7,19 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Movies Database</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel="stylesheet" type = "text/css" href="{% static 'css/bootstrap.css' %} " />
     <link rel="stylesheet" type = "text/css" href="{% static 'css/style.css' %} " />
-    <script src="https://cdn.tailwindcss.com/"></script>
+    <link rel="stylesheet" type = "text/css" href="{% static 'css/bootstrap.css' %} " />
+    
     
 </head>
 <body>
     {% include 'navbar.html' %}
+    
+    {% if is_superuser %}
+    {% include 'navbar.html' %}
+    {% endif %}
 
-    {% include 'navbar1.html' %}
-    This is home page.
+    
         {% block content %}
 
         {% endblock %}

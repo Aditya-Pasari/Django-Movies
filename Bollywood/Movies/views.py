@@ -16,7 +16,9 @@ from tablib import Dataset
 
 # Create your views here.
 def home(request):
-    return render (request, 'Movies/home.html')
+    is_superuser = request.user.is_superuser
+    context = {'is_superuser': is_superuser}
+    return render (request, 'Movies/home.html', context)
 
 
 def loginPage(request):
