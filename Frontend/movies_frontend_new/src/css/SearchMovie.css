@@ -1,0 +1,28 @@
+.search_input{
+    width: 300px ;
+    color:red;
+}
+
+.search_table_result{
+    display:none
+}
+
+.hidden{
+    display:none;
+}
+
+.show{
+    display:block;
+}
+
+.small_cell{
+    height:100px;
+    width:400px;
+    overflow: hidden;
+}
+
+.small_cell_image{
+    height:150px;
+    width:100px;
+    overflow: hidden;
+}

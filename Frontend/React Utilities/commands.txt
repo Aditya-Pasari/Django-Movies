@@ -1,0 +1,6 @@
+npx create-react-app movies_frontend			To Create React Boiler Code
+sudo npm update -g npm					        To upgrade npm to latest version
+npm install firebase                            ??
+npm install -g firebase-tools                   ??
+
+npm start                                       Starts the react app

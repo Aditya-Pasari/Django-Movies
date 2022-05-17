@@ -1,0 +1,54 @@
+npx create-react-app movies_frontend			To Create React Boiler Code
+sudo npm update -g npm					        To upgrade npm to latest version
+npm install firebase                            ??
+npm install -g firebase-tools                   ??
+
+
+>>> To start the react app, First change directory and then run the command:
+cd movies_frontend                              To get into proper directory
+npm start                                       Starts the react app
+
+>>> In src folder, delete 3 files :- 1) App.test.js  2) logo.svg  3) setupTest.js
+>>> Finally, clean the App.js file. Remove everything in the div tag.  Also delete logo.svg import from TOP. THEN SITE SHOULD START AGAIN.
+
+
+>>> Axios is used to make requests to backend server.
+npm i axios                                     Installs axios
+
+
+>>> Create requests.js file             (Lowercase 'r')  (Uppercase is for Components ONLY)
+>>> Create axios.js
+
+>>> Create Component for Movies row.    "Row.js"
+
+_____________________________________________________________________________________________________________________________
+>>> To install Version 5 of react-router-dot
+npm install react-router-dom@5.3.0
+npm install --save react-router-dom
+
+After installing, Open package-lock.json to confirm this is written there:
+"react-router-dom": "^5.3.1",					<<<<<			IMPORTANT
+
+To downgrade react,
+npm install --save react@17.0.2 react-dom@17.0.2
+
+
+To use Tables from react-bootstrap:
+npm install react-bootstrap bootstrap				It doesn't show error. So hard to figure out that we need to install this
+_____________________________________________________________________________________________________________________________
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

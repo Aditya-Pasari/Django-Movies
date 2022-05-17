@@ -1,0 +1,15 @@
+
+.centered { 
+    
+    margin: 0 auto; 
+    margin-top:10px;
+    width: 90%; 
+}
+
+
+.centered_small { 
+    
+    margin: 0 auto; 
+    margin-top:10px;
+    width: 70%; 
+}

@@ -12,4 +12,6 @@ python manage.py collectstatic
 
 
 pip install django-import-export
+pip install djangorestframework
+pip install django-cors-headers
 
