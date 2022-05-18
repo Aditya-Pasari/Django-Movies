@@ -14,14 +14,17 @@ function Navbar() {
             Home
           </Link>
 
-          <Link className="nav-link" to="/movie/">
-            Movie
+          <Link className="nav-link" to="/crud_operations/">
+            CRUD
           </Link>
           <Link className="nav-link" to="/search_movie/">
             Search Movie
           </Link>
           <Link className="nav-link" to="/login/">
             Login
+          </Link>
+          <Link className="nav-link" to="/api/">
+            API
           </Link>
         </div>
       </nav>

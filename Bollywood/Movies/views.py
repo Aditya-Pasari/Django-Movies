@@ -350,9 +350,12 @@ def api_Get_all(request):
 # Need to send JSON data here. // Form Data
 @api_view(['POST'])
 def api_movie_create(request):
+    print(request.data)
     serializer = MovieSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
+    else:
+        print("Data Not in Valid format")
 
     return Response(serializer.data)
 
@@ -378,10 +381,12 @@ def api_movie_update(request, pk):
 def api_movie_delete(request, pk):
     try:
         movies = Movie.objects.get(id=pk)
+        movie_copy = movies
         movies.delete()
-        return Response("Data with id {} was deleted". format(pk))
+        serializer = MovieSerializer(movies, many=False)
+        return Response(serializer.data)
     except:
-        return Response("Data with id {} was not found". format(pk))
+        return Response("Movie with ID {} was not found". format(pk))
 
 
 @api_view(['GET'])
@@ -421,7 +426,6 @@ def modify_data(data, default_value):
 
 @api_view(['GET', 'POST'])
 def api_movie_search(request, movie_name, actor_name, release_date, genres, ratings, ratings_count):
-    print(" ENTERED IN SEARCH API")
 
     movie_name = modify_data(movie_name, '')
     actor_name = modify_data(actor_name, '')
@@ -458,3 +462,51 @@ def api_movie_search(request, movie_name, actor_name, release_date, genres, rati
     print(movies.count())
     serializer = MovieSerializer(movies, many=True)
     return Response(serializer.data)
+
+
+@csrf_exempt
+def createMovieUsingExcelViaReact(request):
+    print("RECEIVED REQUEST")
+    if request.method == 'POST':
+        print("RECEIVED POST REQUEST")
+        # Not used I think. Delete in future and also resource.py
+        movie_resource = MovieResource()
+        dataset = Dataset()
+        print(request.FILES['myFile'])
+        try:
+            new_movie = request.FILES['myFile']
+            print(new_movie)
+            if not new_movie.name.endswith('xlsx'):
+                messages.info(
+                    request, 'Wrong Format. Only Upload Excel file with xlsx extension')
+                print("FAILED 1")
+                return redirect('createMovieUsingExcel')
+
+            imported_data = dataset.load(new_movie.read(), format='xlsx')
+
+            for data in imported_data:
+                if(data[1] is not None):
+                    value = {
+                        'name': data[1],
+                        'actors': data[2],
+                        'release_date': data[3],
+                        'poster_path': data[4],
+                        'genres': data[5],
+                        'ratings': data[6],
+                        'ratings_count': data[7]
+                    }
+
+                    form = MovieForm(value)
+                    if form.is_valid():
+                        form.save()
+            print("VALIDATED EXCEL SHEET")
+            messages.success(
+                request, 'The data was succesfully imported into database')
+            return redirect('createMovieUsingExcel')
+
+        except:
+            messages.info(
+                request, 'No file was chosen. Please select an excel file to upload.')
+            return redirect('createMovieUsingExcel')
+
+    return render(request, 'Movies/create_movie_using_excel.html')

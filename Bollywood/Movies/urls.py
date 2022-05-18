@@ -15,6 +15,8 @@ urlpatterns = [
     path('createMovieUsingExcel/', views.createMovieUsingExcel,
          name="createMovieUsingExcel"),
 
+    path('createMovieUsingExcelViaReact/', views.createMovieUsingExcelViaReact,
+         name="createMovieUsingExcelViaReact"),
 
 
     path('read_movie/', views.read_movie, name="read_movie"),
@@ -45,6 +47,6 @@ urlpatterns = [
 
 
 
-    #path('room/<str:pk>/', views.room, name = "room"),
-    #path('create-room/', views.createRoom, name = "create-room"),
+    # path('room/<str:pk>/', views.room, name = "room"),
+    # path('create-room/', views.createRoom, name = "create-room"),
 ]
