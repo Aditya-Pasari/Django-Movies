@@ -20,7 +20,7 @@ function App() {
         <div>
           <Navbar />
           <Switch>
-            <PrivateRoute exact path="/crud_operations/" component={CRUD_Operations} />
+            <Route exact path="/crud_operations/" component={CRUD_Operations} />
             <Route exact path="/search_movie/" component={SearchMovie} />
             <Route exact path="/login/" component={Login} />
             <Route exact path="/api/" component={API_list} />

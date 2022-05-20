@@ -2,10 +2,17 @@ import React from 'react'
 import { Table } from "react-bootstrap";
 
 import "../App.css";
+import { useContext } from 'react'
+import AuthContext from "./context/AuthContext";
 
 function API_list() {
+
+    let { loginUser } = useContext(AuthContext)
+    let { user } = useContext(AuthContext)
+    console.log(user)
     return (
         <div className='centered'>
+            {(user) && (<p>Hello {user.username}</p>)}
             <h2>List of API's</h2>
             <h2>Base URL: http:/127.0.0.1:8000/</h2>
             <Table striped bordered hover id="sortMe">

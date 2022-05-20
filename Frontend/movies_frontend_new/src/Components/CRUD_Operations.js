@@ -28,7 +28,9 @@ function CRUD_Operations() {
       <h1>Perform CRUD Operations</h1> <hr />
       <CreateMovie /> <br />
       <ReadMovie /><br />
-      <UpdateMovie movie={movie} /><br />
+      <div style={{ width: '35%' }}>
+        <UpdateMovie movie={movie} /><br />
+      </div>
       <DeleteMovie /><br />
 
     </div>

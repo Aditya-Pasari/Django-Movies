@@ -1,5 +1,14 @@
 @import url('//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css');
 
+
+.centered_small{
+  display:inline-block;
+  width: 40%;
+  max-width: 400px;
+  margin-left:5%;
+  margin-bottom:20px;
+}
+
 .search_input{
     width: 300px ;
     color:red;
@@ -40,12 +49,12 @@
 }
 
 .button {
-    font-family:'Open Sans';
-    font-size: 12px;
-    font-weight:400;
+    
+    font-size: 14px;
+    font-weight:600;
     display:inline-block;
     color:#FFF;
-    border-radius: .25em;
+    border-radius: 12px;
     text-shadow: -1px -1px 0px rgba(0,0,0,0.4);
   }
   

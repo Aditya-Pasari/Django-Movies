@@ -57,7 +57,7 @@ function UpdateMovie(props) {
 
     };
 
-
+    console.log(props)
     return (
         <div>
             <h2>Update a Movie by Key</h2>
@@ -97,7 +97,7 @@ function UpdateMovie(props) {
                         value={inputs.ratings_count} onChange={handleChange} />
                 </div>
 
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary" >Submit</button>
             </form>
             <hr />
         </div>

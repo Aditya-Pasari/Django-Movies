@@ -1,9 +1,39 @@
-.nav { 
-    display: block;
-    background-color: red;
-}
-.nav_logo{
-    margin: 0;
-    width : 85px;
+.nav_custom { 
+    background-color: rgba(61, 61, 59, 0.561);
     
 }
+.nav_list_item_ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    
+}
+.nav_list_item{
+    display: block;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    float: left;
+
+    font-weight: bold;
+    color:white;
+}
+
+.nav_list_item_right {
+    color:white;
+    display: block;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    float: right;
+    font-weight: bold;
+  }
+
+.nav_logo{
+    float: left;
+    text-align: center;
+    margin: 0;
+    width : 85px;
+}
+

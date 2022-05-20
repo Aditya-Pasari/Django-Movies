@@ -270,10 +270,8 @@ function SearchMovie() {
 
             <br />
             <br />
-            <div>
-
-            </div>
             <div className={table_results ? "centered show" : "centered hidden"}>
+
                 <h3>Total Movies matched : {movies.length}</h3>
                 <h2>Search Results are:</h2>
                 <div >
@@ -333,7 +331,7 @@ function SearchMovie() {
             </div>
 
 
-        </div>
+        </div >
     );
 }
 
