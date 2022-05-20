@@ -3,12 +3,22 @@
 from django.urls import path
 from . import views
 
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
+
+from .views import MyTokenObtainPairView
 
 urlpatterns = [
     path('', views.home, name="home"),
     path('login/', views.loginPage, name="login"),
     path('register/', views.registerPage, name="register"),
     path('logout/', views.logoutUser, name="logout"),
+
+    path('api_login/', views.api_loginPage, name="api_login"),
+    path('api_register/', views.api_registerPage, name="api_register"),
+    path('api_logout/', views.api_logoutUser, name="api_logout"),
 
     path('create_movie/', views.create_movie, name="create_movie"),
     path('createMovie/', views.createMovie, name="createMovie"),
@@ -36,6 +46,8 @@ urlpatterns = [
          views.api_movie_update, name="api_movie_update"),
     path('api/movie-delete/<str:pk>',
          views.api_movie_delete, name="api_movie_delete"),
+    path('api/movie-delete-all/', views.api_movie_delete_all,
+         name="api_movie_delete_all"),
     path('api/movie-read-genre/<str:genre>/<str:ratings_count>',
          views.api_movie_read_genre, name="api_movie_read_genre"),
     path('api/movie-read-top-latest-year/', views.api_movie_read_top_latest_year,
@@ -44,8 +56,9 @@ urlpatterns = [
          name="api_movie_search"),
 
 
-
-
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/mytoken/', MyTokenObtainPairView.as_view(), name='token_obtain_pair')
 
     # path('room/<str:pk>/', views.room, name = "room"),
     # path('create-room/', views.createRoom, name = "create-room"),

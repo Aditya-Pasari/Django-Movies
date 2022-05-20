@@ -10,16 +10,26 @@ import DeleteMovie from "./CRUDs/DeleteMovie";
 
 
 function CRUD_Operations() {
+
+  const movie = {
+    'id': '',
+    'name': '',
+    'actors': '',
+    'release_date': '',
+    'poster_path': '',
+    'genres': '',
+    'ratings': '',
+    'ratings_count': '',
+
+  }
+
   return (
     <div className="centered">
-      <h1>Perform CRUD Operations</h1>
-      <CreateMovie /> <br /><br />
-      <ReadMovie /><br /><br />
-      <UpdateMovie /><br /><br />
-      <DeleteMovie /><br /><br />
-
-
-
+      <h1>Perform CRUD Operations</h1> <hr />
+      <CreateMovie /> <br />
+      <ReadMovie /><br />
+      <UpdateMovie movie={movie} /><br />
+      <DeleteMovie /><br />
 
     </div>
   );

@@ -31,6 +31,7 @@ After installing, Open package-lock.json to confirm this is written there:
 
 To downgrade react,
 npm install --save react@17.0.2 react-dom@17.0.2
+yarn add react@17.0.0 react-dom@17.0.0
 
 
 To use Tables from react-bootstrap:

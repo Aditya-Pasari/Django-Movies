@@ -12,6 +12,10 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 
+# FOR JWT - Login, Logout
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
+
 
 from Movies.models import Movie
 from .forms import MovieForm
@@ -28,6 +32,20 @@ import json
 
 
 # Create your views here.
+
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+
+        # Add custom claims
+        token['username'] = user.username
+        
+
+        return token
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
 
 
 def home(request):
@@ -49,11 +67,13 @@ def loginPage(request):
             user = User.objects.get(username=username)
         except:
             messages.error(request, "User does not exist")
+            print("User does not exist")
             return redirect('login')
 
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
+            print("User logging in")
             login(request, user)
             return redirect('home')
         else:
@@ -352,12 +372,18 @@ def api_Get_all(request):
 def api_movie_create(request):
     print(request.data)
     serializer = MovieSerializer(data=request.data)
+
     if serializer.is_valid():
         serializer.save()
+        print(serializer.data)
+        message = "Movie with name : " + \
+            serializer.data['name'] + " was added successfully"
+        message_type = 'success'
     else:
-        print("Data Not in Valid format")
+        message = "Movie was not added. There is some error"
+        message_type = 'error'
 
-    return Response(serializer.data)
+    return JsonResponse({'data': serializer.data, 'message': message, 'message_type': message_type})
 
 
 @api_view(['GET'])
@@ -384,9 +410,24 @@ def api_movie_delete(request, pk):
         movie_copy = movies
         movies.delete()
         serializer = MovieSerializer(movies, many=False)
-        return Response(serializer.data)
+        message = 'Movie ' + movie_copy.name + ' has been deleted successfully.'
+        return JsonResponse(
+            {'data': serializer.data, 'message': message, 'message_type': 'success'})
     except:
-        return Response("Movie with ID {} was not found". format(pk))
+        message = 'Movie was not deleted. There is some error.'
+        return JsonResponse(
+            {'message': message, 'message_type': 'error'})
+
+
+@api_view(['DELETE'])
+def api_movie_delete_all(request):
+    try:
+        Movie.objects.all().delete()
+        return JsonResponse(
+            {'message': 'All Movie data has been deleted', 'message_type': 'success'})
+    except:
+        return JsonResponse({'message': 'There is some error',
+                             'message_type': 'error'})
 
 
 @api_view(['GET'])
@@ -468,19 +509,14 @@ def api_movie_search(request, movie_name, actor_name, release_date, genres, rati
 def createMovieUsingExcelViaReact(request):
     print("RECEIVED REQUEST")
     if request.method == 'POST':
-        print("RECEIVED POST REQUEST")
-        # Not used I think. Delete in future and also resource.py
-        movie_resource = MovieResource()
+
         dataset = Dataset()
-        print(request.FILES['myFile'])
+
         try:
             new_movie = request.FILES['myFile']
-            print(new_movie)
             if not new_movie.name.endswith('xlsx'):
-                messages.info(
-                    request, 'Wrong Format. Only Upload Excel file with xlsx extension')
-                print("FAILED 1")
-                return redirect('createMovieUsingExcel')
+                message = 'Wrong Format. Only Upload Excel file with xlsx extension'
+                return JsonResponse({'message': message, 'message_type': 'error'})
 
             imported_data = dataset.load(new_movie.read(), format='xlsx')
 
@@ -499,14 +535,80 @@ def createMovieUsingExcelViaReact(request):
                     form = MovieForm(value)
                     if form.is_valid():
                         form.save()
-            print("VALIDATED EXCEL SHEET")
-            messages.success(
-                request, 'The data was succesfully imported into database')
-            return redirect('createMovieUsingExcel')
+                    else:
+                        message = 'The excel file is not in correct form'
+                        return JsonResponse({'message': message, 'message_type': 'error'})
 
+            message = 'The data was succesfully imported into database'
+            return JsonResponse({'message': message, 'message_type': 'success'})
         except:
-            messages.info(
-                request, 'No file was chosen. Please select an excel file to upload.')
-            return redirect('createMovieUsingExcel')
+            message = 'The data was succesfully imported into database'
+            return JsonResponse({'message': message, 'message_type': 'error'})
 
-    return render(request, 'Movies/create_movie_using_excel.html')
+
+@api_view(['POST'])
+def api_loginPage(request):
+    print(request.data)
+
+    if request.user.is_authenticated:
+        print("User is already authenticated")
+        return redirect('home')
+
+    if request.method == 'POST':
+        username = request.data['username']
+        password = request.data['password']
+
+        print(username)
+        print(password)
+
+        try:
+            user = User.objects.get(username=username)
+        except:
+            messages.error(request, "User does not exist")
+            print("User does not exist with given username")
+            return redirect('login')
+
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            print('CREDIANTIALS MATCHED')
+            return redirect('/')
+        else:
+            print("User does not exist with given info")
+            messages.error(request, "Username and password do not match")
+
+    context = {}
+    return render(request, 'Movies/login.html', context)
+
+
+def api_registerPage(request):
+    form = UserCreationForm()
+
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('home')
+        else:
+            messages.error(request, "Error during registration")
+
+    context = {'form': form}
+    return render(request, 'Movies/register.html', context)
+
+
+def api_logoutUser(request):
+    logout(request)
+    return redirect('home')
+
+
+##########################################################################################################
+
+
+
+
+
+
+
+#########################################################################################################

@@ -1,16 +1,21 @@
 import React from "react";
 import "../css/SearchMovie.css";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Table } from "react-bootstrap";
 import axios from "../axios";
+
+import ModalUpdate from './ModalUpdate';
+import UpdateMovie from './CRUDs/UpdateMovie';
 
 
 
 function SearchMovie() {
     const [inputs, setInputs] = useState({
+        'id': '',
         'movie_name': '',
         'actor_name': '',
         'release_date': '',
+        'poster_path': '',
         'genres': '',
         'ratings': '',
         'ratings_count': '',
@@ -18,6 +23,11 @@ function SearchMovie() {
 
     const [movies, setMovies] = useState([]);
     const [table_results, setTable_results] = useState(false);
+
+    const [buttonPopup, setButtonPopup] = useState(false);
+    const [movieClicked, setMovieClicked] = useState('');
+
+    const [openModal, setOpenModal] = useState(false);
 
 
     const handleChange1 = (event) => {
@@ -64,6 +74,57 @@ function SearchMovie() {
         fetchData();
 
     };
+
+    const handleUpdateButton = (e) => {
+        setMovieClicked({
+            'name': e.currentTarget.getAttribute('movie_name'),
+            'id': e.currentTarget.getAttribute('id'),
+            'actors': e.currentTarget.getAttribute('actors'),
+            'poster_path': e.currentTarget.getAttribute('poster_path'),
+            'genres': e.currentTarget.getAttribute('genres'),
+            'release_date': e.currentTarget.getAttribute('release_date'),
+            'ratings_count': e.currentTarget.getAttribute('ratings_count'),
+            'ratings': e.currentTarget.getAttribute('ratings'),
+        })
+        setButtonPopup(true)
+    };
+
+    const openModalFunc = (e) => {
+        setMovieClicked({
+            'name': e.currentTarget.getAttribute('movie_name'),
+            'id': e.currentTarget.getAttribute('id'),
+            'actors': e.currentTarget.getAttribute('actors'),
+            'poster_path': e.currentTarget.getAttribute('poster_path'),
+            'genres': e.currentTarget.getAttribute('genres'),
+            'release_date': e.currentTarget.getAttribute('release_date'),
+            'ratings_count': e.currentTarget.getAttribute('ratings_count'),
+            'ratings': e.currentTarget.getAttribute('ratings'),
+        })
+        setOpenModal(true)
+    }
+
+    const handleDeleteButton = (event) => {
+        event.preventDefault();
+        const movie_id = event.currentTarget.getAttribute('movie_id')
+
+
+        async function fetchData() {
+            event.preventDefault();
+            var url = "http://127.0.0.1:8000/api/movie-delete/" + movie_id
+            console.log(url)
+            const request = await axios.delete(url);
+
+            return request;
+
+        }
+        fetchData();
+        handleSubmit(event);
+
+    };
+
+
+
+
     //////////////////////////////////////////////////////////////////////
     ////////// To Sort Table by clicking on Header - dont touch ///////////
     ///////////////////////////////////////////////////////////////////////
@@ -224,9 +285,11 @@ function SearchMovie() {
                                 <th>Actors List</th>
                                 <th data-type="release_year">Release Date</th>
                                 <th>Genres</th>
-                                <th>Poster</th>
+                                <th >Poster</th>
                                 <th data-type="number_float">Ratings</th>
                                 <th data-type="number_int">Ratings Count</th>
+                                <th>Update Movie</th>
+                                <th>Delete Movie</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -238,15 +301,34 @@ function SearchMovie() {
                                         <td><div className="small_cell">{m.actors}</div></td>
                                         <td>{m.release_date}</td>
                                         <td>{m.genres}</td>
-                                        <td><div className="small_cell_image"><img src={m.poster_path} height='150px' onError={(e) => { e.target.onerror = null; e.target.src = "https://bitsofco.de/content/images/2018/12/broken-1.png" }} /></div> </td>
+                                        <td className="td_image_column"><div className="image_column"><img className="small_cell_image" src={m.poster_path} height='150px' onError={(e) => { e.target.onerror = null; e.target.src = "https://bitsofco.de/content/images/2018/12/broken-1.png" }} /></div> </td>
                                         <td>{m.ratings}</td>
                                         <td>{m.ratings_count}</td>
+                                        <td onClick={openModalFunc} movie_id={m.id}
+                                            movie_name={m.name}
+                                            actors={m.actors}
+                                            release_date={m.release_date}
+                                            genres={m.genres}
+                                            ratings={m.ratings}
+                                            ratings_count={m.ratings_count}
+                                            id={m.id}
+                                            poster_path={m.poster_path}
+
+                                        ><button class="button primary edit"> Update</button> </td>
+                                        <td onClick={handleDeleteButton} movie_id={m.id}><button class="button primary delete"> Delete</button> </td>
+
                                     </tr>
                                 )
                             }
                         </tbody>
                     </Table>
                 </div>
+
+                <ModalUpdate movie={movieClicked} openModal={openModal} setOpenModal={setOpenModal} >
+                    <UpdateMovie movie={movieClicked} />
+                </ModalUpdate>
+
+
 
             </div>
 

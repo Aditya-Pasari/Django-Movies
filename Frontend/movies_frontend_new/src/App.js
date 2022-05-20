@@ -8,20 +8,26 @@ import API_list from "./Components/API_list";
 import SearchMovie from "./Components/SearchMovie";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import PrivateRoute from "./Components/PrivateRoute";
+import { AuthProvider } from './Components/context/AuthContext'
+
 
 function App() {
   return (
+
     <Router>
-      <div>
-        <Navbar />
-        <Switch>
-          <Route exact path="/crud_operations/" component={CRUD_Operations} />
-          <Route exact path="/search_movie/" component={SearchMovie} />
-          <Route exact path="/login/" component={Login} />
-          <Route exact path="/api/" component={API_list} />
-          <Route exact path="/" component={Home} />
-        </Switch>
-      </div>
+      <AuthProvider>
+        <div>
+          <Navbar />
+          <Switch>
+            <PrivateRoute exact path="/crud_operations/" component={CRUD_Operations} />
+            <Route exact path="/search_movie/" component={SearchMovie} />
+            <Route exact path="/login/" component={Login} />
+            <Route exact path="/api/" component={API_list} />
+            <Route exact path="/" component={Home} />
+          </Switch>
+        </div>
+      </AuthProvider>
     </Router>
   );
 }

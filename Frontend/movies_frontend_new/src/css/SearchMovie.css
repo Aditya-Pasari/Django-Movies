@@ -1,3 +1,5 @@
+@import url('//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css');
+
 .search_input{
     width: 300px ;
     color:red;
@@ -21,8 +23,43 @@
     overflow: hidden;
 }
 
-.small_cell_image{
-    height:150px;
-    width:100px;
-    overflow: hidden;
+.image_column{
+  padding: 0;
 }
+
+.td_image_column{
+  padding: 0;
+}
+
+.small_cell_image{
+  max-width:120px;
+  object-fit: contain;
+  padding: 0;
+
+    
+}
+
+.button {
+    font-family:'Open Sans';
+    font-size: 12px;
+    font-weight:400;
+    display:inline-block;
+    color:#FFF;
+    border-radius: .25em;
+    text-shadow: -1px -1px 0px rgba(0,0,0,0.4);
+  }
+  
+  .primary {
+    line-height:40px;
+    transition:ease-in-out .2s;
+    padding: 0 16px;
+  }
+  .delete {
+    background: rgb(192, 57, 43);
+  }
+  
+  .edit {
+    background: rgb(52, 152, 219);
+  }
+
+  

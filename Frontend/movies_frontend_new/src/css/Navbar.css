@@ -1,0 +1,9 @@
+.nav { 
+    display: block;
+    background-color: red;
+}
+.nav_logo{
+    margin: 0;
+    width : 85px;
+    
+}

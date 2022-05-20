@@ -1,10 +1,58 @@
+@import url('//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css');
+
+
 .submit_button{
     margin:10px;
 }
 
 .create_movie_form{
-    width:40%;
-    display: table ;
-
-    
+  width:70%;
+  display: table ;
 }
+
+.update_movie_form{
+  width:100%;
+  display: table ;
+}
+
+.response_message{
+    margin: 10px 0;
+  padding: 10px;
+  border-radius: 3px 3px 3px 3px;
+}
+
+.message-success{
+    color: #270;
+  background-color: #DFF2BF;
+}
+
+.message-error {
+    color: #D8000C;
+    background-color: #FFBABA;
+  }
+
+.left{
+    float:left;
+    
+    width:50%;
+    height: 100%;
+
+}
+
+.right{
+    float:right;
+    width:50%;
+    height: 100%;
+}
+
+.row {
+    display: flex; /* equal height of the children */
+    color:black;
+  }
+  
+  .col {
+    flex: 1; /* additionally, equal width */
+    color:black;
+    padding: 1em;
+   /* border: solid; */
+  }

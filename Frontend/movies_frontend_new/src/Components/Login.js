@@ -1,63 +1,61 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
 
-import { Table } from "react-bootstrap";
+import { useState } from "react";
+
 import "../App.css";
 import axios from "../axios";
 
+import { useContext } from 'react'
+import AuthContext from "./context/AuthContext";
+
 function Login() {
 
-    const [state, setState] = useState([]);
+    const [inputs, setInputs] = useState({
+        'username': '',
+        'password': '',
+    });
 
-    //When Row loads on screen, we need to make a request to fetch the movies.
-    useEffect(() => {
-        async function fetchData() {
-            const request = await axios.get("http://127.0.0.1:8000/api/movie-read-genre/Thriller/10000");
-            setState(request.data.slice(0, 50));
+    let { loginUser } = useContext(AuthContext)
+    let { user } = useContext(AuthContext)
+
+    const handleChange = (event) => {
+        const name = event.target.name;
+        const value = event.target.value;
+        setInputs((values) => ({ ...values, [name]: value }));
+    };
+
+
+
+
+    const login = () => {
+
+        loginUser();
+        async function sendData() {
+
+            var url = "http://127.0.0.1:8000/api_login/";
+            const request = await axios.post(url, inputs);
+            console.log(request.token);
             return request;
+
         }
-        fetchData();
-    }, []); // Empty [] means only run this code once when Row is loaded. Then, never run it. If [movies] is there, then it will run everytime 'movies' changes its value.
-    //  Thus, this creates dynamic nature.
+        sendData();
 
+    }
 
-
-    console.log(state)
     return (
         <div>
             <h2>This is Login PAGE. But Not going. s</h2>
-            <div className="centered">
-                <Table striped bordered hover>
-                    <thead>
-                        <tr>
-                            <th>Movie ID</th>
-                            <th>Name</th>
-                            <th>Actors List</th>
-                            <th>Release Date</th>
-                            <th>Genres</th>
-                            <th>Poster</th>
-                            <th>Ratings</th>
-                            <th>Ratings Count</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            state.map(m =>
-                                <tr key={m.id}>
-                                    <td>{m.id}</td>
-                                    <td>{m.name}</td>
-                                    <td>{m.actors}</td>
-                                    <td>{m.release_date}</td>
-                                    <td>{m.genres}</td>
-                                    <td><img src={m.poster_path} height='150px' onError={(e) => { e.target.onerror = null; e.target.src = "https://bitsofco.de/content/images/2018/12/broken-1.png" }} /> </td>
-                                    <td>{m.ratings}</td>
-                                    <td>{m.ratings_count}</td>
-                                </tr>
-                            )
-                        }
-                    </tbody>
-                </Table>
+
+            <div>
+                {(user) && (<p>Hello {user.username}</p>)}
+
+                <form onSubmit={loginUser}>
+                    <span > Enter Username: </span>
+                    <input type="text" name="username" onChange={handleChange} value={inputs.username} /> <br />
+                    <span > Enter Password: </span>
+                    <input type="password" name="password" onChange={handleChange} value={inputs.password} /><br />
+                    <input type="submit" />
+                </form>
             </div>
 
         </div>
