@@ -1,3 +1,6 @@
+# Used to convert original excel files to correct format which Django will accept and load into database.
+
+
 import sys  
 
 reload(sys)  
@@ -10,12 +13,11 @@ import json
 import pandas as pd
 
 loc = ('./Datasets/1989/')
-#filename = ['bollywood_text_2010-2019.csv']
 
 poster_file = open(loc+'bollywood_1950-1989.csv').read().split('\n')[1:]
 genre_file = open(loc+'bollywood_meta_1950-1989.csv').read().split('\n')[1:]
 actors_file = open(loc+'bollywood_text_1950-1989.csv').read().split('\n')[1:]
-#f = open(loc+filename[0]).read().split('\n')
+
 
 movies = OrderedDict()
 
@@ -43,4 +45,4 @@ for line in poster_file:
 
 df = pd.DataFrame(data=movies)
 df = (df.T)
-df.to_excel('1989.xlsx')
+df.to_excel('final_file.xlsx')

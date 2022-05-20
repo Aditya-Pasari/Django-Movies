@@ -6,7 +6,7 @@ django-admin startproject Bollywood
 python manage.py runserver
 python manage.py startapp Movies
 python manage.py migrate
-python manage.py createsuperuser 			Aditya aditya@gmail.com p******d
+python manage.py createsuperuser 			
 python manage.py makemigrations
 python manage.py collectstatic
 

@@ -16,10 +16,7 @@ urlpatterns = [
     path('register/', views.registerPage, name="register"),
     path('logout/', views.logoutUser, name="logout"),
 
-    path('api_login/', views.api_loginPage, name="api_login"),
-    path('api_register/', views.api_registerPage, name="api_register"),
-    path('api_logout/', views.api_logoutUser, name="api_logout"),
-
+    # Create - Paths
     path('create_movie/', views.create_movie, name="create_movie"),
     path('createMovie/', views.createMovie, name="createMovie"),
     path('createMovieUsingExcel/', views.createMovieUsingExcel,
@@ -28,7 +25,7 @@ urlpatterns = [
     path('createMovieUsingExcelViaReact/', views.createMovieUsingExcelViaReact,
          name="createMovieUsingExcelViaReact"),
 
-
+    # RUD using django without API
     path('read_movie/', views.read_movie, name="read_movie"),
     path('delete_movie/', views.delete_movie, name="delete_movie"),
     path('delete_movie_key/<str:pk>',
@@ -38,6 +35,7 @@ urlpatterns = [
          views.update_movie_key, name="update_movie_key"),
 
 
+    # Various API
     path('api/', views.api_overview, name="api_overview"),
     path('api/get-all/', views.api_Get_all, name="api_Get_all"),
     path('api/movie-create/', views.api_movie_create, name="api_movie_create"),
@@ -55,7 +53,7 @@ urlpatterns = [
     path('api/movie-search/<str:movie_name>/<str:actor_name>/<str:release_date>/<str:genres>/<str:ratings>/<str:ratings_count>/', views.api_movie_search,
          name="api_movie_search"),
 
-
+    # Token URLS
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/mytoken/', MyTokenObtainPairView.as_view(), name='token_obtain_pair')

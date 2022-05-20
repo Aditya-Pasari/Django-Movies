@@ -1,3 +1,6 @@
+# Used to convert original excel files to correct format which Django will accept and load into database.
+# This file also includes "ratings" and 'ratings_count' Column 
+
 import sys  
 
 reload(sys)  
@@ -80,9 +83,9 @@ df = (df.T)
 
 # Re-arranging the columns of pandas dataframes
 cols = df.columns.tolist()
-print(cols)
+
 # Title, Actors, release_date, poster_path, genres, ratings, rating_count
 cols = cols[6:] + cols[0:1] + cols[5:6] + cols[2:3] + cols[1:2] + cols[3:4] + cols[4:5]
 df = df[cols]
 
-df.to_excel('full_files.xlsx')
+df.to_excel('final_file.xlsx')

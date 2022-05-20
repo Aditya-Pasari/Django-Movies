@@ -54,9 +54,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'Movies.apps.MoviesConfig',                              # Need to add our app
-    'rest_framework',                                       # Need to add DRF
-    'corsheaders',                                     # Need to add this for security
+    'Movies.apps.MoviesConfig',                      # Need to add our app
+    'rest_framework',                                # Need to add DRF
+    'corsheaders',                                   # Need to add this for security
 ]
 
 

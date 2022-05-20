@@ -40,9 +40,9 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
         # Add custom claims
         token['username'] = user.username
-        
 
         return token
+
 
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
@@ -294,7 +294,6 @@ def update_movie(request):
             return HttpResponse("Movie with given id not found. Cannot be updated")
 
     context = {'form': form}
-
     return render(request, 'Movies/update_movie.html', context)
 
 # To update any movie by its ID
@@ -348,6 +347,7 @@ def update_movie_key(request, pk):
 ###########################################################################
 ############################ REST API #####################################
 ###########################################################################
+# Edit this in future
 @api_view(['GET'])
 def api_overview(request):
     api_urls = {
@@ -433,9 +433,10 @@ def api_movie_delete_all(request):
 @api_view(['GET'])
 def api_movie_read_genre(request, genre, ratings_count):
     movies = Movie.objects.filter(genres__icontains=genre)
+    # Only show movies which have decent rating count
     movies = movies.filter(ratings_count__gte=ratings_count)
-    movies = movies.filter(release_date__gte=datetime.date(2011, 1, 1))
 
+    #movies = movies.filter(release_date__gte=datetime.date(2011, 1, 1))
     movies = movies.order_by('-ratings')
 
     serializer = MovieSerializer(movies, many=True)
@@ -444,8 +445,11 @@ def api_movie_read_genre(request, genre, ratings_count):
 
 @api_view(['GET'])
 def api_movie_read_top_latest_year(request):
-    movies = Movie.objects.filter(release_date__gte=datetime.date(2019, 1, 1))
+    movies = Movie.objects.filter(release_date__gte=datetime.date(
+        2019, 1, 1))  # Only show newer movies in 'latest top'
+    # Only show movies which have decent rating count
     movies = movies.filter(ratings_count__gte=1000)
+    # Only show movies which have decent ratings
     movies = movies.filter(ratings__gte=7)
     movies = movies.order_by('-ratings')
 
@@ -458,11 +462,15 @@ def api_movie_read_top_latest_year(request):
 ###########################################################################
 
 
+# Used to modify incoming data in 'api_movie_search' view
 def modify_data(data, default_value):
     if(data == ' ' or data == '' or data == 'None'):
         return default_value
     else:
         return data
+
+# Modify this 'view' and send data in post request.
+# This looks too clumsy
 
 
 @api_view(['GET', 'POST'])
@@ -500,11 +508,11 @@ def api_movie_search(request, movie_name, actor_name, release_date, genres, rati
     movies = movies.filter(ratings_count__gte=ratings_count)
 
     movies = movies.order_by('-ratings')
-    print(movies.count())
     serializer = MovieSerializer(movies, many=True)
     return Response(serializer.data)
 
 
+# Used to add excel sheet from React frontend
 @csrf_exempt
 def createMovieUsingExcelViaReact(request):
     print("RECEIVED REQUEST")
@@ -546,69 +554,4 @@ def createMovieUsingExcelViaReact(request):
             return JsonResponse({'message': message, 'message_type': 'error'})
 
 
-@api_view(['POST'])
-def api_loginPage(request):
-    print(request.data)
-
-    if request.user.is_authenticated:
-        print("User is already authenticated")
-        return redirect('home')
-
-    if request.method == 'POST':
-        username = request.data['username']
-        password = request.data['password']
-
-        print(username)
-        print(password)
-
-        try:
-            user = User.objects.get(username=username)
-        except:
-            messages.error(request, "User does not exist")
-            print("User does not exist with given username")
-            return redirect('login')
-
-        user = authenticate(request, username=username, password=password)
-
-        if user is not None:
-            login(request, user)
-            print('CREDIANTIALS MATCHED')
-            return redirect('/')
-        else:
-            print("User does not exist with given info")
-            messages.error(request, "Username and password do not match")
-
-    context = {}
-    return render(request, 'Movies/login.html', context)
-
-
-def api_registerPage(request):
-    form = UserCreationForm()
-
-    if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            return redirect('home')
-        else:
-            messages.error(request, "Error during registration")
-
-    context = {'form': form}
-    return render(request, 'Movies/register.html', context)
-
-
-def api_logoutUser(request):
-    logout(request)
-    return redirect('home')
-
-
 ##########################################################################################################
-
-
-
-
-
-
-
-#########################################################################################################
