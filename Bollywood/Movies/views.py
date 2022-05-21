@@ -15,9 +15,10 @@ from django.views.decorators.csrf import csrf_exempt
 # FOR JWT - Login, Logout
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
-
+from rest_framework import permissions
 
 from Movies.models import Movie
+
 from .forms import MovieForm
 from .resources import MovieResource
 from django.contrib import messages
@@ -26,7 +27,9 @@ from tablib import Dataset
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.parsers import JSONParser
-from .serializers import MovieSerializer
+
+from .serializers import MovieSerializer, UserSerializer
+
 
 import json
 
@@ -359,6 +362,12 @@ def api_overview(request):
     }
     return Response(api_urls)
 
+@api_view(['GET'])
+def api_Get_all_Users(request):
+    users = User.objects.all()
+    serializer = UserSerializer(users, many=True)
+    return Response(serializer.data)
+
 
 @api_view(['GET'])
 def api_Get_all(request):
@@ -386,8 +395,10 @@ def api_movie_create(request):
     return JsonResponse({'data': serializer.data, 'message': message, 'message_type': message_type})
 
 
+# @login_required(login_url='login')
 @api_view(['GET'])
 def api_movie_read(request, pk):
+
     movies = Movie.objects.get(id=pk)
     serializer = MovieSerializer(movies, many=False)
     return Response(serializer.data)

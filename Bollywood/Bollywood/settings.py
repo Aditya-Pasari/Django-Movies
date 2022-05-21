@@ -41,6 +41,7 @@ CORS_ALLOW_CREDENTIALS = True
 #SESSION_COOKIE_SAMESITE = 'None'
 #CSRF_COOKIE_SECURE = True
 
+
 CORS_EXPOSE_HEADERS = (
     'Access-Control-Allow-Origin: *',
 )
@@ -53,18 +54,50 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',                          # Added for Django-allauth          ***************
 
     'Movies.apps.MoviesConfig',                      # Need to add our app
-    'rest_framework',                                # Need to add DRF
     'corsheaders',                                   # Need to add this for security
+    'rest_framework',                                # Need to add DRF
+
+    'rest_framework.authtoken',
+    'dj_rest_auth',                                  # rest_auth doesnt work in Django4 - For User Authentication
+
+    # For django-allauth
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'dj_rest_auth.registration',
+
+    'rest_framework_swagger',                       # For documentation of APIs
 ]
 
 
+# PERMISSION IS DIFFERENT FROM AUTHENTICATION
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
+        # This is for react based authentication
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
+
+        # This is for logging into API admin panel
+        'rest_framework.authentication.SessionAuthentication',
+        # 'rest_framework.authentication.BasicAuthentication'
+    ),
+    # Check this
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ],
+
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
 }
+
+# To login and logout out of Swagger-Docs. If this is not there, the button wont work
+SWAGGER_SETTINGS = {
+'LOGIN_URL': 'rest_framework:login',
+'LOGOUT_URL': 'rest_framework:logout',
+}
+
+
 
 # https://django-rest-framework-simplejwt.readthedocs.io/en/latest/settings.html
 SIMPLE_JWT = {
@@ -128,6 +161,9 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'libraries' : {
+                'staticfiles': 'django.templatetags.static',        # To solve error due to Swagger-docs
+            }
         },
     },
 ]
@@ -190,3 +226,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Added for Django.allauth
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+SITE_ID = 1

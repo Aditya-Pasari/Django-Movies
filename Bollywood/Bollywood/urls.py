@@ -15,8 +15,24 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework.schemas import get_schema_view
+from rest_framework.documentation import include_docs_urls
+from rest_framework_swagger.views import get_swagger_view
+
+#schema_view = get_schema_view(title = 'Movie API')
+schema_view = get_swagger_view(title = 'Movie API')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('Movies.urls')),
+
+    path('api-auth/', include('rest_framework.urls')),                 # API for User Authentication
+    path('api/dj-rest-auth/', include('dj_rest_auth.urls')),            # api/dj-rest-auth/login  & /logout
+    path('api/dj-rest-auth/registration', include('dj_rest_auth.registration.urls')),            # API for User Authentication
+    #path('schema/', schema_view),                                      # Returns schema for all with @api_view decorator
+    path('docs/', include_docs_urls(title = 'Movie API')),
+    path('swagger-docs/', schema_view),                                 # Returns schema for all with @api_view decorator
+
+
+    
 ]

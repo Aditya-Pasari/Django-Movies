@@ -37,6 +37,7 @@ urlpatterns = [
 
     # Various API
     path('api/', views.api_overview, name="api_overview"),
+    path('api/get-all-users/', views.api_Get_all_Users, name='api_Get_all_Users'),       # API for Getting all users
     path('api/get-all/', views.api_Get_all, name="api_Get_all"),
     path('api/movie-create/', views.api_movie_create, name="api_movie_create"),
     path('api/movie-read/<str:pk>', views.api_movie_read, name="api_movie_read"),
