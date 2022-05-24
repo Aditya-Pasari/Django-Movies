@@ -1,1 +1,1 @@
-web: gunicorn Bollywood.Bollywood.wsgi --log-file -
+web: gunicorn --pythonpath Bollywood Bollywood.wsgi
