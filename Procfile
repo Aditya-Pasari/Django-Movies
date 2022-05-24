@@ -1,1 +1,1 @@
-web: gunicorn Bollywood.wsgi --log-file -
+web: gunicorn Bollywood.Bollywood.wsgi --log-file -
