@@ -14,6 +14,10 @@ from pathlib import Path
 import os
 from datetime import timedelta
 
+#
+import django
+from django.utils.encoding import force_str
+django.utils.encoding.force_text = force_str          # To fix import error - 'force_text' . It is not available in Django 4
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,9 +30,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-ji88-w9%#wp%0ry8kg%dz$f%##taq%yr3b*hu=gbh+bw)=52k)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+#DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['bollywood-movies.herokuapp.com/', '127.0.0.1']
 
 CORS_ORIGIN_ALLOW_ALL = True
 CSRF_TRUSTED_ORIGINS = ['http://localhost:3000', 'http://127.0.0.1:3000']
@@ -70,6 +75,11 @@ INSTALLED_APPS = [
     'dj_rest_auth.registration',
 
     'rest_framework_swagger',                       # For documentation of APIs
+
+    'graphene_django',                              # For using GraphQL
+
+    'django_celery_results',
+
 ]
 
 
@@ -96,6 +106,23 @@ SWAGGER_SETTINGS = {
 'LOGIN_URL': 'rest_framework:login',
 'LOGOUT_URL': 'rest_framework:logout',
 }
+
+
+ # For using GraphQL
+GRAPHENE = {
+    "SCHEMA" : "Movies.schema.schema"
+}
+
+
+ # For using Celery
+ # pip install -U django-celery-results
+CELERY_BROKER_URL = 'redis://localhost:6379' 
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/'
+CELERY_ACCEPT_CONTENT = ['application/json'] 
+CELERY_RESULT_SERIALIZER = 'json' 
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Asia/Mumbai' 
+
 
 
 

@@ -1,5 +1,5 @@
 
-import datetime
+import datetime, sys
 from multiprocessing import context
 from platform import release
 from django.shortcuts import redirect, render
@@ -29,6 +29,10 @@ from rest_framework.response import Response
 from rest_framework.parsers import JSONParser
 
 from .serializers import MovieSerializer, UserSerializer
+
+#Celery
+#sys.path.append("..")
+from .tasks import test_func  
 
 
 import json
@@ -566,3 +570,14 @@ def createMovieUsingExcelViaReact(request):
 
 
 ##########################################################################################################
+
+# Celery
+# importing task from tasks.py file  
+  
+# Create your views here.  
+  
+def test(request):  
+    # call the test_function using delay, calling task  
+    test_func.delay()    
+
+    return HttpResponse("Done")  

@@ -19,6 +19,8 @@ from rest_framework.schemas import get_schema_view
 from rest_framework.documentation import include_docs_urls
 from rest_framework_swagger.views import get_swagger_view
 
+from graphene_django.views import GraphQLView
+
 #schema_view = get_schema_view(title = 'Movie API')
 schema_view = get_swagger_view(title = 'Movie API')
 
@@ -33,6 +35,7 @@ urlpatterns = [
     path('docs/', include_docs_urls(title = 'Movie API')),
     path('swagger-docs/', schema_view),                                 # Returns schema for all with @api_view decorator
 
+    path('graphql', GraphQLView.as_view(graphiql = True)),
 
     
 ]

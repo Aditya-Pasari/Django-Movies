@@ -57,7 +57,10 @@ urlpatterns = [
     # Token URLS
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('api/mytoken/', MyTokenObtainPairView.as_view(), name='token_obtain_pair')
+    path('api/mytoken/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
+
+     path('api/celery', views.test, name='test'),  
+
 
     # path('room/<str:pk>/', views.room, name = "room"),
     # path('create-room/', views.createRoom, name = "create-room"),
