@@ -4,7 +4,7 @@ axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
 axios.defaults.xsrfCookieName = "csrftoken";
 
 const instance = axios.create({
-  baseURL: "",
+  baseURL: "http://13.127.43.173:8000",
 });
 
 
