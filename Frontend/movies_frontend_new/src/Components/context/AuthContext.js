@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }) => {
 
     let loginUser = async (e) => {
         e.preventDefault()
-        let response = await fetch('http://13.127.43.173:8000/api/mytoken/', {
+        let response = await fetch('http://3.110.183.172:8000/api/mytoken/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -47,7 +47,7 @@ export const AuthProvider = ({ children }) => {
 
     let updateToken = async () => {
 
-        let response = await fetch('http://13.127.43.173:8000/api/token/refresh/', {
+        let response = await fetch('http://3.110.183.172:8000/api/token/refresh/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
