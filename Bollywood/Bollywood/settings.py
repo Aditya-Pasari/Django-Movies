@@ -13,8 +13,8 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 from pathlib import Path
 import os
 from datetime import timedelta
-# NEW SETTINGS sss
-#
+
+
 import django
 from django.utils.encoding import force_str
 django.utils.encoding.force_text = force_str          # To fix import error - 'force_text' . It is not available in Django 4
