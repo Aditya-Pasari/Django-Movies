@@ -45,7 +45,7 @@ function UpdateMovie(props) {
 
         async function fetchData() {
 
-            var url = "http://127.0.0.1:8000/api/movie-update/" + inputs.id;
+            var url = "/api/movie-update/" + inputs.id;
             const request = await axios.put(url, inputs);
             console.log(request.data)
             console.log(request.data.message)

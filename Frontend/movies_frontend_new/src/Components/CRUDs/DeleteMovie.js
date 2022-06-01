@@ -31,7 +31,7 @@ function DeleteMovie() {
 
         async function fetchData() {
             event.preventDefault();
-            var url = "http://127.0.0.1:8000/api/movie-delete/" + movieID
+            var url = "/api/movie-delete/" + movieID
             console.log(url)
             const request = await axios.delete(url);
 
@@ -47,7 +47,7 @@ function DeleteMovie() {
 
         async function fetchData() {
             event.preventDefault();
-            var url = "http://127.0.0.1:8000/api/movie-delete-all/"
+            var url = "/api/movie-delete-all/"
             const request = await axios.delete(url);
 
             showDiv(request, 'delete_all_movies', 'delete_all_movies_message')

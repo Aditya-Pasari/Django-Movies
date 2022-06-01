@@ -39,7 +39,7 @@ function CreateMovieExcel() {
                 selectedFile,
                 selectedFile.name
             );
-            const request = await axios.post("http://127.0.0.1:8000/createMovieUsingExcelViaReact/", formData);
+            const request = await axios.post("/createMovieUsingExcelViaReact/", formData);
             console.log(request);
             showDiv(request, 'create_movie_excel', 'create_movie_excel_message');
             return request;

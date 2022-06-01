@@ -32,7 +32,7 @@ function Login() {
         loginUser();
         async function sendData() {
 
-            var url = "http://127.0.0.1:8000/api_login/";
+            var url = "/api_login/";
             const request = await axios.post(url, inputs);
             console.log(request.token);
             return request;

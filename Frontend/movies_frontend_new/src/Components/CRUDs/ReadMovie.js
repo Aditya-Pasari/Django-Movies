@@ -18,7 +18,7 @@ function ReadMovie() {
 
         async function fetchData() {
             event.preventDefault();
-            var url = "http://127.0.0.1:8000/api/movie-read/" + movieID
+            var url = "/api/movie-read/" + movieID
             console.log(url)
             const request = await axios.get(url);
             console.log(request.data)

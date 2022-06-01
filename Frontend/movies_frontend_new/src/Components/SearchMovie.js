@@ -57,7 +57,7 @@ function SearchMovie() {
 
         async function fetchData() {
 
-            var url = "http://127.0.0.1:8000/api/movie-search/"
+            var url = "/api/movie-search/"
             url += modifyData(inputs.movie_name) + '/';
             url += modifyData(inputs.actor_name) + '/';
             url += modifyData(inputs.release_date) + '/';
@@ -110,7 +110,7 @@ function SearchMovie() {
 
         async function fetchData() {
             event.preventDefault();
-            var url = "http://127.0.0.1:8000/api/movie-delete/" + movie_id
+            var url = "/api/movie-delete/" + movie_id
             console.log(url)
             const request = await axios.delete(url);
 

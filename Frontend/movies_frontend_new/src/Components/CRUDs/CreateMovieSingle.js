@@ -43,7 +43,7 @@ function CreateMovieSingle() {
 
         async function fetchData() {
 
-            var url = "http://127.0.0.1:8000/api/movie-create/"
+            var url = "/api/movie-create/"
             const request = await axios.post(url, inputs);
             console.log(request.data)
             console.log(request.data.message)
